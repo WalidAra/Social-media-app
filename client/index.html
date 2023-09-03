@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Post Management</h1>
+
+    <!-- Add New Post Form -->
+    <div id="addPostForm">
+        <h2>Add New Post</h2>
+        <form id="postForm">
+            <input type="text" id="imgUrl" placeholder="Image URL" required>
+            <input type="text" id="postTitle" placeholder="Title" required>
+            <textarea id="postDescription" placeholder="Description" rows="4" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- List of Posts -->
+    <h2>All Posts</h2>
+    <ul id="postList">
+        <!-- Posts will be dynamically added here -->
+    </ul>
+
+    <!-- View Comments Section -->
+    <div id="commentsSection" style="display: none;">
+        <h2>Comments</h2>
+        <ul id="commentList">
+            <!-- Comments will be dynamically added here -->
+        </ul>
+    </div>
+
+    <!-- Add Comment Form -->
+    <div id="addCommentForm" style="display: none;">
+        <h2>Add Comment</h2>
+        <form id="commentForm">
+            <textarea id="commentText" placeholder="Your comment" rows="3" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

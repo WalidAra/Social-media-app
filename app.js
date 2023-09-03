@@ -15,32 +15,36 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 
-
-// All Posts
 app.get('/', (req, res) => {
-    return res.status(200).json({
-        postList
-    })
+  res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
+
+app.use(express.static(path.join(__dirname, 'client')));
 
 // create a new Post
 app.post('/api/addPosts', (req, res) => {
-    const { img, title, description } = req.body;
+// Inside your '/api/addPosts' route
+try {
+  const { img, title, description } = req.body;
+  
+  const id = postList.length + 1;
+  const newPost = {
+    id,
+    img,
+    title,
+    description,
+  };
 
-    const id = postList.length + 1;
-    const newPost = {
-      id,
-      img,
-      title,
-      description,
-    };
+  postList.push(newPost);
+  fs.writeFileSync(path.resolve(__dirname, 'posts.json'), JSON.stringify(postList));
 
-    postList.push(newPost);
-    fs.writeFileSync(path.resolve(__dirname, 'posts.json'), JSON.stringify(postList));
-
-    return res.status(200).json({
-      postList
-    })
+  return res.status(200).json({
+    postList
+  })
+} catch (error) {
+  console.error('Error adding post:', error);
+  res.status(500).json({ error: 'Internal Server Error' });
+}
 });
 //Delete Post
 
