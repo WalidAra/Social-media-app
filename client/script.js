@@ -7,31 +7,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const addCommentForm = document.getElementById('addCommentForm');
     const commentForm = document.getElementById('commentForm');
 
-const fetchPosts = () => {
-    fetch('/api/allPosts')
-        .then((response) => response.json())
-        .then((data) => {
-            const posts = data.postList;
-            postList.innerHTML = ''; // Clear previous posts
-            posts.forEach((post) => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `<strong>${post.title}</strong>: ${post.description} 
-                                     [<a href="#" class="viewComments" data-id="${post.id}">View Comments</a>]`;
-                postList.appendChild(listItem);
+    const fetchPosts = () => {
+        fetch('/api/allPosts')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const posts = data.postList;
+                const postList = document.getElementById('postList');
+                postList.innerHTML = ''; // Clear previous posts
+    
+                posts.forEach((post) => {
+                    // Create a new list item for each post and add it to the list
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <img src="${post.img}" alt="${post.title}">
+                        <h3>${post.title}</h3>
+                        <p>${post.description}</p>
+                    `;
+                    postList.appendChild(listItem);
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching posts:', error);
             });
-        })
-        .catch((error) => {
-            console.error('Error fetching posts:', error);
-        });
-};
-
-// Initial fetch of all posts when the page loads
-// fetchAllPosts();
-
-
-
-
-
+    };
+    
+    // Call the fetchPosts function to load posts when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchPosts();
+    });
+    
 
     // Show/hide the "Add New Post" form
     addPostForm.addEventListener('click', () => {

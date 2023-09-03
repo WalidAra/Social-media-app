@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'client')));
 
 // create a new Post
-app.post('/api/addPosts', (req, res) => {
+app.post('/api/addPosts', async(req, res) => {
 // Inside your '/api/addPosts' route
 try {
   const { img, title, description } = req.body;
@@ -46,6 +46,17 @@ try {
   res.status(500).json({ error: 'Internal Server Error' });
 }
 });
+// Example server-side code
+app.get('/api/allPosts', (req, res) => {
+  // Read the list of posts from your data source (e.g., posts.json)
+  const posts = postList;
+  
+  // Send the list of posts to the client
+  res.json({ postList: posts });
+});
+
+// create a new Comment});
+
 //Delete Post
 
 app.post('/delete/:id', (req, res) => {
@@ -113,9 +124,9 @@ app.post('/delt/:id', (req, res) => {
 
 
 // 404 page not found
-app.use('*', (req, res) => {
-    return res.redirect('/');
-});
+// app.use('*', (req, res) => {
+//     return res.redirect('/');
+// });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
